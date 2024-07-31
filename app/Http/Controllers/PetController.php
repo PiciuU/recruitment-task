@@ -59,7 +59,7 @@ class PetController extends Controller
     public function show(Request $request)
     {
         try {
-            $id = $request->get('id');
+            $id = intval($request->get('id'));
             $pet = $this->petService->getPet($id);
             return redirect()->back()->with(['pet' => $pet, 'searched_pet_id' => $id]);
         } catch (\Exception $e) {
