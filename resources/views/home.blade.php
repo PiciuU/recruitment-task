@@ -3,7 +3,6 @@
 @section('content')
     <main class="bg-gray-100 flex flex-col items-center min-h-screen p-6">
 
-
         <div class="container mx-auto mt-5 p-6 bg-white shadow-md rounded">
             <div class="bg-yellow-300 text-black text-center p-4 font-bold w-full z-50 mb-8 rounded">
                 This application utilizes publicly available API; hence, data retrieved may be subject to frequent updates and changes.
@@ -14,7 +13,7 @@
                 <form id="search_pet_form" action="{{ route('pets.search') }}" method="POST">
                     @csrf
                     <div class="flex items-center">
-                        <input type="number" id="id" name="id" placeholder="Enter Pet ID"  value="{{ session('searched_pet_id') }}" class="border p-2 rounded w-1/2 mr-2" required>
+                        <input type="number" id="pet_id" name="id" placeholder="Enter Pet ID"  value="{{ session('searched_pet_id') }}" class="border p-2 rounded w-1/2 mr-2" required>
                         <button type="submit" class="bg-blue-500 text-white ml-4 px-4 py-2 rounded">Search</button>
                     </div>
                 </form>
@@ -52,7 +51,7 @@
                     @csrf
                     <div class="mb-4">
                         <label for="id" class="block text-gray-700">ID:</label>
-                        <input type="number" id="id" name="id" required value="{{ old('id', 1) }}" min="1" class="border p-2 rounded w-full @error('id') border-red-500 @enderror">
+                        <input type="number" id="id" name="id" required value="{{ old('id', 1) }}" min="1" class="border p-2 rounded w-full @error('id') border-red-500 @enderror" placeholder="Enter Pet ID">
                         @error('id')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -60,7 +59,7 @@
 
                     <div class="mb-4">
                         <label for="name" class="block text-gray-700">Name:</label>
-                        <input type="text" id="name" name="name" value="{{ old('name') }}" class="border p-2 rounded w-full @error('name') border-red-500 @enderror">
+                        <input type="text" id="name" name="name" value="{{ old('name') }}" class="border p-2 rounded w-full @error('name') border-red-500 @enderror" placeholder="Enter Pet Name">
                         @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -68,7 +67,7 @@
 
                     <div class="mb-4">
                         <label for="category_id" class="block text-gray-700">Category ID:</label>
-                        <input type="number" id="category_id" name="category_id" value="{{ old('category_id') }}" class="border p-2 rounded w-full @error('category_id') border-red-500 @enderror">
+                        <input type="number" id="category_id" name="category_id" value="{{ old('category_id') }}" class="border p-2 rounded w-full @error('category_id') border-red-500 @enderror" placeholder="Enter Category ID">
                         @error('category_id')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -76,7 +75,7 @@
 
                     <div class="mb-4">
                         <label for="category_name" class="block text-gray-700">Category Name:</label>
-                        <input type="text" id="category_name" name="category_name" value="{{ old('category_name') }}" class="border p-2 rounded w-full @error('category_name') border-red-500 @enderror">
+                        <input type="text" id="category_name" name="category_name" value="{{ old('category_name') }}" class="border p-2 rounded w-full @error('category_name') border-red-500 @enderror" placeholder="Enter Category Name">
                         @error('category_name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -90,7 +89,7 @@
                                     <input type="text" name="photoUrls[]" value="{{ $photoUrl }}" class="border p-2 rounded w-full mb-2">
                                 @endforeach
                             @else
-                                <input type="text" name="photoUrls[]" class="border p-2 rounded w-full mb-2" placeholder="Photo URL">
+                                <input type="text" id="photoUrls" name="photoUrls[]" class="border p-2 rounded w-full mb-2" placeholder="Enter Photo URL">
                             @endif
                         </div>
                         @error('photoUrls.*')
@@ -107,7 +106,7 @@
                                     <input type="text" name="tags[{{ $index }}][name]" value="{{ $tag['name'] }}" class="border p-2 rounded w-full mb-2">
                                 @endforeach
                             @else
-                                <input type="text" name="tags[0][name]" class="border p-2 rounded w-full mb-2" placeholder="Tag Name">
+                                <input type="text" id="tags" name="tags[0][name]" class="border p-2 rounded w-full mb-2" placeholder="Enter Tag Name">
                             @endif
                         </div>
                         @error('tags.*.name')
@@ -246,16 +245,16 @@
                     <form id="edit_pet_form" action="{{ route('pets.update', $pet['id']) }}" method="POST">
                         @csrf
                         <div class="mb-4">
-                            <label for="name" class="block text-gray-700">Name:</label>
-                            <input type="text" id="name" name="name" value="{{ old('name', $pet['name'] ?? '') }}" class="border p-2 rounded w-full">
+                            <label for="edit_name" class="block text-gray-700">Name:</label>
+                            <input type="text" id="edit_name" name="name" value="{{ old('name', $pet['name'] ?? '') }}" class="border p-2 rounded w-full" placeholder="Enter Pet Name">
                             @error('name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="mb-4">
-                            <label for="status" class="block text-gray-700">Status:</label>
-                            <select id="status" name="status" class="border p-2 rounded w-full" required>
+                            <label for="edit_status" class="block text-gray-700">Status:</label>
+                            <select id="edit_status" name="status" class="border p-2 rounded w-full" required>
                                 @foreach($statusValues as $status)
                                     <option value="{{ $status }}" {{ old('status', $pet['status'] ?? '') == $status ? 'selected' : '' }}>
                                         {{ $status }}
@@ -275,7 +274,6 @@
                 </div>
             </div>
         @endif
-    </div>
 
     </main>
 @endsection
@@ -312,13 +310,13 @@
 
             // Add more photo URL fields
             $('#addPhotoUrl').click(function() {
-                $('#photoUrlsContainer').append('<input type="text" name="photoUrls[]" class="border p-2 rounded w-full mb-2" placeholder="Photo URL">');
+                $('#photoUrlsContainer').append('<input type="text" name="photoUrls[]" class="border p-2 rounded w-full mb-2" placeholder="Enter Photo URL">');
             });
 
             // Add more tag fields
             $('#addTag').click(function() {
                 var index = $('#tagsContainer input').length;
-                $('#tagsContainer').append('<input type="text" name="tags[' + index + '][name]" class="border p-2 rounded w-full mb-2" placeholder="Tag Name">');
+                $('#tagsContainer').append('<input type="text" name="tags[' + index + '][name]" class="border p-2 rounded w-full mb-2" placeholder="Enter Tag Name">');
             });
         });
     </script>
